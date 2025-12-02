@@ -48,11 +48,11 @@ export default function IntroAndMenu() {
       />
 
       <Image src="/chilli.png" alt="Decorative Chilli" width={500} height={500}
-        className="absolute md:left-[50px] bottom-[calc(50%-60px)] md:bottom-[calc(50%-100px)] z-20 drop-shadow-2xl rotate-[40deg] scale-x-[-1] w-[150px] sm:w-[200px] md:w-[250px] lg:w-[350px] 2xl:w-[400px]"
+        className="absolute md:left-[50px] bottom-[calc(40%-0px)] md:bottom-[calc(50%-100px)] z-20 drop-shadow-2xl rotate-[40deg] scale-x-[-1] w-[150px] sm:w-[200px] md:w-[250px] lg:w-[350px] 2xl:w-[400px]"
       />
 
       <Image src="/chopsticks.png" alt="Decorative Chopsticks" width={800} height={800}
-        className="absolute -right-[100px] md:-right-[300px] top-[38%] 2xl:top-[28%] z-20 drop-shadow-2xl -rotate-[20deg] scale-x-[-1] w-[330px] sm:w-[300px] md:w-[450px] lg:w-[650px] 2xl:w-[800px]"
+        className="absolute -right-[100px] md:-right-[300px] top-[44%] 2xl:top-[28%] z-20 drop-shadow-2xl -rotate-[20deg] scale-x-[-1] w-[330px] sm:w-[300px] md:w-[450px] lg:w-[650px] 2xl:w-[800px]"
       />
 
       <Image src="/pepper.png" alt="Decorative Bell Pepper" width={500} height={500}
