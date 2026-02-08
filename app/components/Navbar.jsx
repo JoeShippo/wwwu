@@ -7,6 +7,16 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
+
+  const scrollTo = (id) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const y = el.getBoundingClientRect().top + window.scrollY - 80;
+  window.scrollTo({ top: y, behavior: "smooth" });
+};
+
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
@@ -15,20 +25,23 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        scrolled
-          ? "backdrop-blur-md bg-[#f81a19] py-3 shadow-sm"
-          : "bg-transparent py-6"
-      }`}
-    >
+  className={`
+    fixed top-0 left-0 w-full z-50
+    transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]
+    ${scrolled
+      ? "h-36 bg-[#f81a19]/90 backdrop-blur-md shadow-sm"
+      : "h-62 bg-transparent"}
+  `}
+>
       <div
-        className="
-          relative
-          max-w-[90vw] mx-auto px-8
-          flex items-center justify-center
-          text-white transition-all duration-500
-        "
-      >
+  className="
+    relative h-full
+    max-w-[90vw] mx-auto px-8
+    flex items-center justify-center
+    text-white
+  "
+>
+
         {/* BURGER (Mobile Only, Top-Left) */}
         {scrolled && (
           <button
@@ -41,33 +54,64 @@ export default function Navbar() {
         )}
 
         {/* LOGO – Always Centered */}
-        <Image
-          src="/logo.png"
-          alt="We Will Wok You"
-          width={scrolled ? 75 : 240}
-          height={scrolled ? 75 : 240}
-          className={`
-    transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]
-    ${!scrolled ? "logo-mobile-small" : ""}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+
+  <div
+  className={`
+    transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]
+
+    ${
+      scrolled
+        ? "scale-[0.45] -translate-y-1 md:scale-50 md:-translate-y-1"
+        : "scale-[0.9] md:scale-100"
+    }
   `}
-        />
+>
+
+    <Image
+      src="/logo.png"
+      alt="We Will Wok You"
+      width={240}
+      height={240}
+      priority
+    />
+  </div>
+</div>
+
 
         {/* DESKTOP LEFT LINKS */}
         <div
-          className="hidden md:flex absolute left-0 gap-20 text-2xl tracking-wide pt-3"
+          className={`
+  hidden md:flex absolute left-0 gap-20 pt-3
+  transition-all duration-300
+  ${scrolled ? "text-2xl" : "text-3xl"}
+`}
           style={{ fontFamily: "var(--font-luckiest-guy)" }}
         >
-          <Link href="#about" className="nav-link">About</Link>
-          <Link href="#menu" className="nav-link">What's Cooking</Link>
+          <button onClick={() => scrollTo("about")} className="nav-link cursor-pointer">
+  About
+</button>
+
+<button onClick={() => scrollTo("menu")} className="nav-link cursor-pointer">
+  What's Cooking
+</button>
         </div>
 
         {/* DESKTOP RIGHT LINKS */}
         <div
-          className="hidden md:flex absolute right-0 gap-20 text-2xl tracking-wide pt-3"
+          className={`hidden md:flex absolute right-0 gap-20 pt-3
+  transition-all duration-300
+  ${scrolled ? "text-2xl" : "text-3xl"}
+`}
           style={{ fontFamily: "var(--font-luckiest-guy)" }}
         >
-          <Link href="#find" className="nav-link">Find Us</Link>
-          <Link href="#contact" className="nav-link">Contact</Link>
+          <button onClick={() => scrollTo("find")} className="nav-link cursor-pointer">
+  Find Us
+</button>
+
+<button onClick={() => scrollTo("contact")} className="nav-link cursor-pointer">
+  Get in Touch
+</button>
         </div>
       </div>
 
@@ -88,10 +132,39 @@ export default function Navbar() {
           ✕
         </button>
 
-        <Link href="#about" onClick={() => setMenuOpen(false)}>About</Link>
-        <Link href="#menu" onClick={() => setMenuOpen(false)}>What's Cooking</Link>
-        <Link href="#find" onClick={() => setMenuOpen(false)}>Find Us</Link>
-        <Link href="#contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+        <button
+          onClick={() => {
+            scrollTo("about");
+            setMenuOpen(false);
+          }}
+        >
+          About
+        </button>
+        
+        <button
+          onClick={() => {
+            scrollTo("menu");
+            setMenuOpen(false);
+          }}
+        >
+          What's Cooking
+        </button>
+        <button
+          onClick={() => {
+            scrollTo("find");
+            setMenuOpen(false);
+          }}
+        >
+          Find Us
+        </button>
+        <button
+          onClick={() => {
+            scrollTo("Contact");
+            setMenuOpen(false);
+          }}
+        >
+          Contact
+        </button>
       </div>
 
     </nav>

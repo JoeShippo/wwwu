@@ -6,43 +6,54 @@ import Link from "next/link";
 export default function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setStatus(null);
+    setErrorMessage("");
 
-    const form = e.target;
+    const form = e.currentTarget;
     const formData = new FormData(form);
+    const payload = Object.fromEntries(formData.entries());
 
     try {
-      const res = await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch("/api/contact", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
 
-      if (data.success) {
-        setStatus("success");
-        form.reset();
-      } else {
-        console.error("Web3Forms error:", data);
-        setStatus("error");
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Something went wrong");
       }
+
+      setStatus("success");
+      form.reset();
     } catch (err) {
       console.error(err);
       setStatus("error");
+      setErrorMessage(
+        err.message || "Something went wrong. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section id="contact" className="p-5 py-20 md:px-20 md:py-26 bg-[#f81a19] text-white scroll-mt-15">
+    <section
+      id="contact"
+      className="p-5 py-20 md:px-20 md:py-26 bg-[#f81a19] text-white scroll-mt-15"
+    >
       <div className="mx-auto grid grid-cols-1 md:grid-cols-2">
 
-        {/* LEFT COLUMN — HEADING + TEXT */}
+        {/* LEFT COLUMN */}
         <div className="flex flex-col justify-center md:max-w-7/8">
           <h2 className="text-5xl md:text-[75px] 2xl:text-[100px] font-bold text-white drop-shadow-lg">
             Fancy cooking up a storm?
@@ -51,7 +62,7 @@ export default function ContactSection() {
           <p className="text-md sm:text-lg md:text-xl 2xl:text-2xl leading-relaxed mb-5 md:mb-15">
             Got a question? Want to book us for an event?  
             Or fancy having We Will Wok You at your festival, street food market, or private party?  
-            Drop us a message and we’ll get right back to you.
+            Drop us a message and we'll get right back to you.
           </p>
           <h3 className="text-2xl md:text-4xl 2xl:text-5xl font-bold text-white drop-shadow-lg mb-4">
           Wondering where<br className="hidden 2xl:block"/> we're heading next?
@@ -71,116 +82,119 @@ export default function ContactSection() {
           onSubmit={handleSubmit}
           className="grid gap-6 bg-[#1a1a1a] p-6 md:p-8 rounded-3xl border border-white/10 mt-10 md:mt-0"
         >
-          <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY_HERE" />
+               {/* Honeypot */}
+<input
+  type="text"
+  name="fax"
+  tabIndex="-1"
+  autoComplete="off"
+  aria-hidden="true"
+  className="hidden"
+/>
 
-          {/* NAME */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium">
-              Name<span className="text-red-400"> *</span>
-            </label>
-            <input
-              name="name"
-              required
-              type="text"
-              className="rounded-xl px-4 py-3 bg-black/40 border border-white/15 
-                         focus:outline-none focus:border-[#f81a19] focus:ring-1 focus:ring-[#f81a19]"
-              placeholder="Your name"
-            />
-          </div>
+{/* NAME */}
+<div className="flex flex-col gap-2">
+  <label htmlFor="name" className="text-sm font-medium">
+    Name<span className="text-red-400"> *</span>
+  </label>
+  <input
+    id="name"
+    name="name"
+    required
+    type="text"
+    placeholder="Your name"
+    className="rounded-xl px-4 py-3 bg-black/40 border border-white/15"
+  />
+</div>
 
-          {/* EMAIL + PHONE INLINE */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* EMAIL */}
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium">
-                Email<span className="text-red-400"> *</span>
-              </label>
-              <input
-                name="email"
-                required
-                type="email"
-                className="rounded-xl px-4 py-3 bg-black/40 border border-white/15 
-                           focus:outline-none focus:border-[#f81a19] focus:ring-1 focus:ring-[#f81a19]"
-                placeholder="you@example.com"
-              />
-            </div>
+{/* EMAIL */}
+<div className="flex flex-col gap-2">
+  <label htmlFor="email" className="text-sm font-medium">
+    Email<span className="text-red-400"> *</span>
+  </label>
+  <input
+    id="email"
+    name="email"
+    required
+    type="email"
+    placeholder="you@example.com"
+    className="rounded-xl px-4 py-3 bg-black/40 border border-white/15"
+  />
+</div>
 
-            {/* PHONE */}
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium">
-                Phone<span className="text-red-400"> *</span>
-              </label>
-              <input
-                name="phone"
-                required
-                type="tel"
-                className="rounded-xl px-4 py-3 bg-black/40 border border-white/15 
-                           focus:outline-none focus:border-[#f81a19] focus:ring-1 focus:ring-[#f81a19]"
-                placeholder="Best number to reach you"
-              />
-            </div>
-          </div>
+{/* PHONE */}
+<div className="flex flex-col gap-2">
+  <label htmlFor="phone" className="text-sm font-medium">
+    Phone<span className="text-red-400"> *</span>
+  </label>
+  <input
+    id="phone"
+    name="phone"
+    required
+    type="tel"
+    placeholder="Best number to reach you"
+    className="rounded-xl px-4 py-3 bg-black/40 border border-white/15"
+  />
+</div>
 
-          {/* ENQUIRY TYPE */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium">
-              Enquiry Type<span className="text-red-400"> *</span>
-            </label>
-            <select
-              name="enquiry_type"
-              required
-              className="rounded-xl px-4 py-3 bg-black/40 border border-white/15 
-                         focus:outline-none focus:border-[#f81a19] focus:ring-1 focus:ring-[#f81a19]"
-              defaultValue=""
-            >
-              <option value="" disabled>
-                Please choose an option
-              </option>
-              <option value="general">General Enquiry</option>
-              <option value="event-booking">Event / Private Hire</option>
-              <option value="street-food-market">Street Food Market</option>
-              <option value="collaboration">Collaboration</option>
-              <option value="other">Something Else</option>
-            </select>
-          </div>
+{/* ENQUIRY TYPE */}
+<div className="flex flex-col gap-2">
+  <label htmlFor="enquiry_type" className="text-sm font-medium">
+    Enquiry Type<span className="text-red-400"> *</span>
+  </label>
+  <select
+    id="enquiry_type"
+    name="enquiry_type"
+    required
+    className="rounded-xl px-4 py-3 bg-black/40 border border-white/15"
+  >
+    <option value="">Select enquiry type</option>
+    <option value="general">General Enquiry</option>
+    <option value="event-booking">Event / Private Hire</option>
+    <option value="street-food-market">Street Food Market</option>
+    <option value="collaboration">Collaboration</option>
+    <option value="other">Something Else</option>
+  </select>
+</div>
 
-          {/* MESSAGE */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium">
-              Enquiry<span className="text-red-400"> *</span>
-            </label>
-            <textarea
-              name="message"
-              required
-              rows="5"
-              className="rounded-xl px-4 py-3 bg-black/40 border border-white/15 
-                         focus:outline-none focus:border-[#f81a19] focus:ring-1 focus:ring-[#f81a19] resize-none"
-              placeholder="Tell us about your event, dates, numbers, and anything else we should know."
-            ></textarea>
-          </div>
+{/* MESSAGE */}
+<div className="flex flex-col gap-2">
+  <label htmlFor="message" className="text-sm font-medium">
+    Message<span className="text-red-400"> *</span>
+  </label>
+  <textarea
+    id="message"
+    name="message"
+    required
+    rows="5"
+    placeholder="Tell us about your event..."
+    className="rounded-xl px-4 py-3 bg-black/40 border border-white/15 resize-none"
+  />
+</div>
 
-          {/* STATUS */}
+
+          {/* STATUS MESSAGES */}
           {status === "success" && (
-            <p className="text-sm text-green-400">Thank you! We'll be in touch soon.</p>
+            <p className="text-green-400 text-sm">
+              Thanks! Your message has been sent — we'll be in touch shortly.
+            </p>
           )}
+
           {status === "error" && (
-            <p className="text-sm text-red-400">Something went wrong — try again.</p>
+            <p className="text-red-400 text-sm">
+              ❌ {errorMessage}
+            </p>
           )}
 
-          {/* BUTTON */}
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-[#f81a19] text-white font-semibold 
-                         tracking-wide hover:bg-[#ff3432] disabled:opacity-60 disabled:cursor-not-allowed 
-                         transition-all duration-200 shadow-lg hover:shadow-[#f81a19]/40"
-            >
-              {isSubmitting ? "Sending..." : "Send Enquiry"}
-            </button>
-          </div>
+          {/* SUBMIT */}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="px-8 py-3 rounded-full bg-[#f81a19] font-semibold disabled:opacity-60"
+          >
+            {isSubmitting ? "Sending…" : "Send Enquiry"}
+          </button>
         </form>
-
       </div>
     </section>
   );

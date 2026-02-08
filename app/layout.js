@@ -66,7 +66,6 @@ export const metadata = {
   },
 };
 
-// ✅ THIS is what actually adds the viewport meta tag
 export const viewport = {
   width: "device-width",
   initialScale: 1,
@@ -88,7 +87,7 @@ export default function RootLayout({ children }) {
               name: "We Will Wok You",
               image: "https://wewillwokyou.co.uk/og-image.jpg",
               url: "https://wewillwokyou.co.uk",
-              telephone: "+441234567890",
+              telephone: "+447849309400",
               servesCuisine: [
                 "Asian",
                 "Street Food",

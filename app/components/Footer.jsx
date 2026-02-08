@@ -6,7 +6,7 @@ import { FaFacebook, FaInstagram } from "react-icons/fa";
 export default function Footer() {
   return (
     <footer className="bg-[#0d0d0d] text-white px-10 md:px-20 pb-10 pt-10 md:pt-0 border-t-2 md:border-t-0">
-      <div className="mx-auto flex flex-col gap-10">
+      <div className="mx-auto flex flex-col gap-10 pt-15">
 
         {/* ROW 1 */}
         <div className="flex flex-col md:flex-row justify-between gap-10">
@@ -39,9 +39,9 @@ export default function Footer() {
               >
                 Indi Local
               </a>
-              <a href="#" className="hover:text-[#f81a19] transition">
+              {/* <a href="#" className="hover:text-[#f81a19] transition">
                 Order Online
-              </a>
+              </a> */}
               <div className="flex items-center gap-4 text-2xl md:text-4xl mb-3">
                 <a
                   href="https://www.instagram.com/wewillwokyoumk/"
@@ -73,11 +73,11 @@ export default function Footer() {
               width={80}
               height={80}
               alt="Footer Icon"
-              className="mx-auto md:ml-auto md:mr-0"
+              className="md:ml-auto md:mr-0"
             />
 
-            <p>01234 567890</p>
-            <p>hello@wewillwokyou.co.uk</p>
+            <p>07849 309400</p>
+            <p><a href="mail:hello@wewillwokyou.co.uk" target="_blank" rel="noopener noreferrer" className="hover:text-[#f81a19] transition">hello@wewillwokyou.co.uk</a></p>
           </div>
         </div>
 
@@ -89,7 +89,7 @@ export default function Footer() {
             <p>
               © {new Date().getFullYear()} We Will Wok You. All rights reserved.
             </p>
-            <a href="/privacy" className="hover:text-[#f81a19] transition">
+            <a href="/privacy-policy" className="hover:text-[#f81a19] transition">
               Privacy Policy
             </a>
           </div>
