@@ -66,7 +66,7 @@ if (typeof fax === "string" && fax.trim() !== "") {
 
     await resend.emails.send({
       from: "We Will Wok You <web@wewillwokyou.co.uk>",
-      to: ["joe.shipton@shipped-studio.co.uk"],
+      to: ["hello@wewillwokyou.co.uk"],
       replyTo: email,
       subject: `New Enquiry: ${enquiry_type}`,
       html: `
