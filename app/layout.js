@@ -1,6 +1,7 @@
 import "./globals.css";
 import { DM_Sans, Luckiest_Guy } from "next/font/google";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 
 
 const dmSans = DM_Sans({
@@ -112,7 +113,8 @@ export default function RootLayout({ children }) {
               
             })
           }}
-        />  
+        />
+        <Analytics />
       </body>
     </html>
   );
